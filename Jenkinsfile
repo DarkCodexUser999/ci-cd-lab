@@ -30,9 +30,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    export JENKINS_NODE_COOKIE=dontKillMe
+                    pkill -f "http-server src -p 8081" || true
                     nohup npx http-server src -p 8081 > jenkins-server.log 2>&1 &
-                    echo $! > jenkins-server.pid
+                    sleep 3
+                    curl -f http://localhost:8081
                 '''
             }
         }
@@ -47,4 +48,3 @@ pipeline {
         }
     }
 }
-
