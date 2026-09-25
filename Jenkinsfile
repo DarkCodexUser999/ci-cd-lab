@@ -29,7 +29,9 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'JENKINS_NODE_COOKIE=dontKillMe JENKINS_SERVER_COOKIE=dontKillMe nohup /usr/local/bin/npx http-server src -p 8081 > jenkins-server.log 2>&1 < /dev/null & sleep 3; curl -f http://localhost:8081'
+                sh 'rm -rf /Users/harsh/ci-cd-deploy/*'
+                sh 'cp -R src/. /Users/harsh/ci-cd-deploy/'
+                sh 'curl -f http://localhost:8081'
             }
         }
     }
