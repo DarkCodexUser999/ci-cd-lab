@@ -29,11 +29,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'export JENKINS_NODE_COOKIE=dontKillMe'
-                sh 'export JENKINS_SERVER_COOKIE=dontKillMe'
-                sh 'nohup /usr/local/bin/npx http-server src -p 8081 > jenkins-server.log 2>&1 < /dev/null &'
-                sh 'sleep 3'
-                sh 'curl -f http://localhost:8081'
+                sh 'JENKINS_NODE_COOKIE=dontKillMe JENKINS_SERVER_COOKIE=dontKillMe nohup /usr/local/bin/npx http-server src -p 8081 > jenkins-server.log 2>&1 < /dev/null & sleep 3; curl -f http://localhost:8081'
             }
         }
     }
