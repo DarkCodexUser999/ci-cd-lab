@@ -29,16 +29,14 @@ pipeline {
                 branch 'main'
             }
             steps {
-                    pkill -f "http-server src -p 8081" || true
-
+                
+                    pkill -f http-server || true
                     export JENKINS_NODE_COOKIE=dontKillMe
                     export JENKINS_SERVER_COOKIE=dontKillMe
-
                     nohup /usr/local/bin/npx http-server src -p 8081 > jenkins-server.log 2>&1 < /dev/null &
-
                     sleep 3
-
                     curl -f http://localhost:8081
+    
             }
         }
     }
