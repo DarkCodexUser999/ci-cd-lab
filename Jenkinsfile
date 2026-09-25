@@ -29,12 +29,16 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh '''
                     pkill -f "http-server src -p 8081" || true
-                    nohup npx http-server src -p 8081 > jenkins-server.log 2>&1 &
+
+                    export JENKINS_NODE_COOKIE=dontKillMe
+                    export JENKINS_SERVER_COOKIE=dontKillMe
+
+                    nohup /usr/local/bin/npx http-server src -p 8081 > jenkins-server.log 2>&1 < /dev/null &
+
                     sleep 3
+
                     curl -f http://localhost:8081
-                '''
             }
         }
     }
@@ -43,6 +47,7 @@ pipeline {
         success {
             echo 'Pipeline completed successfully - app deployed at http://localhost:8081'
         }
+
         failure {
             echo 'Pipeline failed - deployment skipped. Check test results above.'
         }
