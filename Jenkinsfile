@@ -1,3 +1,4 @@
+```groovy
 pipeline {
     agent any
 
@@ -30,8 +31,9 @@ pipeline {
             }
             steps {
                 sh '''
-                    JENKINS_NODE_COOKIE=dontKillMe
+                    export JENKINS_NODE_COOKIE=dontKillMe
                     nohup npx http-server src -p 8081 > jenkins-server.log 2>&1 &
+                    echo $! > jenkins-server.pid
                 '''
             }
         }
@@ -46,3 +48,4 @@ pipeline {
         }
     }
 }
+```
